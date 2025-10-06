@@ -2,7 +2,7 @@
 	queue
 	This question requires you to use queues to implement the functionality of the stac
 */
-// I AM NOT DONE
+
 
 #[derive(Debug)]
 pub struct Queue<T> {
@@ -52,13 +52,13 @@ impl<T> Default for Queue<T> {
     }
 }
 
-pub struct myStack<T>
+pub struct MyStack<T>
 {
 	//TODO
 	q1:Queue<T>,
 	q2:Queue<T>
 }
-impl<T> myStack<T> {
+impl<T> MyStack<T> {
     pub fn new() -> Self {
         Self {
 			//TODO
@@ -67,15 +67,31 @@ impl<T> myStack<T> {
         }
     }
     pub fn push(&mut self, elem: T) {
-        //TODO
+        //TODO 入栈时直接入 q1
+		self.q1.enqueue(elem);
     }
     pub fn pop(&mut self) -> Result<T, &str> {
-        //TODO
-		Err("Stack is empty")
+        if self.q1.is_empty() {
+            return Err("Stack is empty");
+        }
+
+        // 把 q1 的前 n-1 个元素放到 q2
+        while self.q1.size() > 1 {
+            let val = self.q1.dequeue().unwrap();
+            self.q2.enqueue(val);
+        }
+
+        // 最后一个就是栈顶，直接拿出所有权
+        let top = self.q1.dequeue().map_err(|_| "Stack is empty")?;
+
+        // 交换 q1 和 q2
+        std::mem::swap(&mut self.q1, &mut self.q2);
+
+        Ok(top)
     }
     pub fn is_empty(&self) -> bool {
 		//TODO
-        true
+        self.q1.is_empty()
     }
 }
 
@@ -85,7 +101,7 @@ mod tests {
 	
 	#[test]
 	fn test_queue(){
-		let mut s = myStack::<i32>::new();
+		let mut s = MyStack::<i32>::new();
 		assert_eq!(s.pop(), Err("Stack is empty"));
         s.push(1);
         s.push(2);
