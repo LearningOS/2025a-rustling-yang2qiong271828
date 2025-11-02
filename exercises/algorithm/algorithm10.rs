@@ -1,6 +1,6 @@
 /*
 	graph
-	This problem requires you to implement a basic graph functio
+	This problem requires you to implement a basic graph function.
 */
 
 
@@ -16,6 +16,7 @@ impl fmt::Display for NodeNotInGraph {
 pub struct UndirectedGraph {
     adjacency_table: HashMap<String, Vec<(String, i32)>>,
 }
+
 impl Graph for UndirectedGraph {
     fn new() -> UndirectedGraph {
         UndirectedGraph {
