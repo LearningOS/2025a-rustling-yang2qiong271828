@@ -76,6 +76,8 @@ where
             left
         }
     }
+
+    //调整左子树
     fn sift_up(&mut self, mut idx: usize) {
         while idx > 1 {
             let parent = self.parent_idx(idx);
@@ -87,6 +89,8 @@ where
             }
         }
     }
+
+    //调整右子树
     fn sift_down(&mut self, mut idx: usize) {
         while self.children_present(idx) {
             let child = self.smallest_child_idx(idx);
